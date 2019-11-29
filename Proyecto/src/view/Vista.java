@@ -28,30 +28,7 @@ public class Vista extends JFrame{
     JFrame*/
     public void menu (){
         
-         /*---------------------------------------------*/
-        /*Ahora crearé las vistas que tendrá el panel secudario, el cual aun no
-        se mostrará*/
         
-        /*Empèzaré por el panel de "Insertar*/
-        
-        JPanel PanelInsertar = new JPanel();
-        PanelInsertar.setLayout(null);
-        PanelInsertar.setBounds(300,0,500,600);
-        /*PanelInsertar.setVisible(false);*/
-        
-        JLabel ILabelCodigo = new JLabel("Inserte codigo del empleado");
-        ILabelCodigo.setBounds(30,30,170,30);
-        
-        JLabel ILabelID = new JLabel("Inserte nombre del empleado");
-        ILabelID.setBounds(30,70,170,30);
-        
-        JLabel ILabelNombre = new JLabel("Inserte nombre del empleado");
-        ILabelNombre.setBounds(30,110,170,30);
-        
-        PanelInsertar.add(ILabelCodigo);
-        PanelInsertar.add(ILabelID);
-        PanelInsertar.add(ILabelNombre);
-        add(PanelInsertar);
         
         /*---------------------------------------------*/
         /*Creo un panel para el menú principal, el cual aun no mostrará*/
