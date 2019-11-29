@@ -1,93 +1,131 @@
+/*En esta clase crearé las vistas y ventanas con las que el usuario interactuará
+con el programa*/
+
 package view;
 
-import com.sun.java.swing.SwingUtilities3;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+/*La clase se extenderá a JFrame, ya que esta sera la ventana que usaremos*/
 public class Vista extends JFrame{
     
-    public boolean loged = false;
     
     public Vista(){
-        
-           
+        /*Aqui defino las caracteristicas de la ventana*/          
         setTitle("Personal de la construccion");
         setBounds(0,0,800,600);
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);  
     }
     
-    public void menuPrincipal (){
+    /*creo un metodo en el cual se encuentren todos los elementos que tendrá el 
+    JFrame*/
+    public void menu (){
         
-        loged = false;
+         /*---------------------------------------------*/
+        /*Ahora crearé las vistas que tendrá el panel secudario, el cual aun no
+        se mostrará*/
         
+        /*Empèzaré por el panel de "Insertar*/
+        
+        JPanel PanelInsertar = new JPanel();
+        PanelInsertar.setLayout(null);
+        PanelInsertar.setBounds(300,0,500,600);
+        /*PanelInsertar.setVisible(false);*/
+        
+        JLabel ILabelCodigo = new JLabel("Inserte codigo del empleado");
+        ILabelCodigo.setBounds(30,30,170,30);
+        
+        JLabel ILabelID = new JLabel("Inserte nombre del empleado");
+        ILabelID.setBounds(30,70,170,30);
+        
+        JLabel ILabelNombre = new JLabel("Inserte nombre del empleado");
+        ILabelNombre.setBounds(30,110,170,30);
+        
+        PanelInsertar.add(ILabelCodigo);
+        PanelInsertar.add(ILabelID);
+        PanelInsertar.add(ILabelNombre);
+        add(PanelInsertar);
+        
+        /*---------------------------------------------*/
+        /*Creo un panel para el menú principal, el cual aun no mostrará*/
         JPanel PanelMenuPrincipal = new JPanel();
         PanelMenuPrincipal.setLayout(null);
         PanelMenuPrincipal.setBackground(Color.DARK_GRAY);
         PanelMenuPrincipal.setBounds(0,0,300,600);
         
-        
-        
+        /*Un label para el mensaje de bienvenida*/        
         JLabel LabelWelcome = new JLabel("Bienvenido");
         LabelWelcome.setForeground(Color.WHITE);
         LabelWelcome.setBounds(30,20,100,20);
-        
-                
-        
+                        
+        /*Un boton para abrir el menú de "agregar empleado"*/
         JButton ButtonInsert = new JButton("Registrar Empleado");
         ButtonInsert.setBounds(30,60,150,20);
         ButtonInsert.setBackground(Color.DARK_GRAY);
         ButtonInsert.setForeground(Color.WHITE);
         ButtonInsert.setFocusable(false);
         
+        /*Un boton para abrir el menú de "modificacion de usuario"*/
         JButton ButtonModify = new JButton("Editar Empleado");
         ButtonModify.setBounds(30,90,150,20);
         ButtonModify.setBackground(Color.DARK_GRAY);
         ButtonModify.setForeground(Color.WHITE);
         ButtonModify.setFocusable(false);
         
+        /*Un boton para abrir el menú de "Eliminar usuario"*/
         JButton ButtonDelete = new JButton("Eliminar Empleado");
         ButtonDelete.setBounds(30,120,150,20);
         ButtonDelete.setBackground(Color.DARK_GRAY);
         ButtonDelete.setForeground(Color.WHITE);
         ButtonDelete.setFocusable(false);
         
+        /*Un boton para abrir el menú de "modificacion de usuario"*/
         JButton ButtonSearch = new JButton("Buscar Empleado");
         ButtonSearch.setBounds(30,150,150,20);
         ButtonSearch.setBackground(Color.DARK_GRAY);
         ButtonSearch.setForeground(Color.WHITE);
         ButtonSearch.setFocusable(false);
         
+        /*Y añado todo esto al  menú principal*/
         PanelMenuPrincipal.add(ButtonSearch);
         PanelMenuPrincipal.add(ButtonDelete);
         PanelMenuPrincipal.add(ButtonModify);
         PanelMenuPrincipal.add(ButtonInsert);
         PanelMenuPrincipal.add(LabelWelcome);       
         
-        
+        /*Añado el panel a la clase peeeero no lo dejo visible, ya que no se va
+        a ver hasta que el usuario ingrese*/
         add(PanelMenuPrincipal);
-    }  
-    
-    public void login (){
+        PanelMenuPrincipal.setVisible(false);
         
+        
+        
+        /*---------------------------------------------*/
+        /*Bien, ahora crearé el panel del login, el primer panel que se mostrará
+        cuando el usuario abra el programa*/
         JPanel PanelLogin = new JPanel();
         PanelLogin.setLayout(null);
         PanelLogin.setBounds(0,0,800,600);
         
+        /*A parte creo un label de color oscuro para dividir la pantalla en dos,
+        un trozo de pantalla para ver el menú donde el usuario seleccionará que
+        hacer y uno donde el usuario ejecute sus acciones de añadir, midificar,
+        eliminar y consultar usuario*/
         JPanel Border = new JPanel();
         Border.setBackground(Color.DARK_GRAY);
         Border.setBounds(0,0,300,600);
         
+        /*Y añado el panel*/
         add(Border);
         
+        /*Ahora voy a añadir los elementos que va a tener el panel*/
         JLabel LabelUserName = new JLabel("Ingrese su nombre");
         LabelUserName.setBounds(370,160,130,30);
         JTextArea TextUserName = new JTextArea("");
@@ -97,23 +135,30 @@ public class Vista extends JFrame{
         JTextArea TextPass = new JTextArea("");
         TextPass.setBounds(510,260,130,30);
         
+        /*Creo los botones de "Ingresar" y "Cancelar"*/
         JButton SingIn = new JButton("Ingresar");
         SingIn.setBounds (370,360,130,30);
+        /*Creo un actionListener para que cuando el usuario de click en este
+        boton, pueda cerrar el panel de login y abrir el panel del menu 
+        principal*/
         SingIn.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
+                PanelMenuPrincipal.setVisible(true);
                 PanelLogin.setVisible(false);
-                loged = true;
             }   
         });
         
         JButton Exit = new JButton("Salir");
         Exit.setBounds (510,360,130,30);
+        /*Hago lo mismo para el boton de "Cancelar" pero cuando el usuario
+        de click en este boton, el programa se cerrará*/
         Exit.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
         
+        /*Y añado todos sus elementos al panel, y el panel a la ventana*/
         PanelLogin.add(Exit);
         PanelLogin.add(SingIn);
         PanelLogin.add(LabelPass);
@@ -122,10 +167,11 @@ public class Vista extends JFrame{
         PanelLogin.add(TextUserName);
         
         add(PanelLogin); 
+        
+        
+       
     }
     
    
-    /*JPanel PanelMenuSecundario = new JPanel();
-    PanelMenuSecundario.setLayout(null);
-    PanelMenuSecundario.setBounds(400,0,400,600);*/
+    
 }
