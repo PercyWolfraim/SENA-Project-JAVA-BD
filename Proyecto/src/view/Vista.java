@@ -27,9 +27,12 @@ public class Vista extends JFrame{
     /*creo un metodo en el cual se encuentren todos los elementos que tendrá el 
     JFrame*/
     public void menu (){
+        /*Invocaré los paneles de "Insertar, modificar, eliminar y consultar"*/        
+        VistaInsertar PanelInsert = new VistaInsertar();
+        add(PanelInsert);
         
-        
-        
+        VistaModificar PanelModificar = new VistaModificar();
+        add(PanelModificar);
         /*---------------------------------------------*/
         /*Creo un panel para el menú principal, el cual aun no mostrará*/
         JPanel PanelMenuPrincipal = new JPanel();
@@ -48,6 +51,16 @@ public class Vista extends JFrame{
         ButtonInsert.setBackground(Color.DARK_GRAY);
         ButtonInsert.setForeground(Color.WHITE);
         ButtonInsert.setFocusable(false);
+        /*Le daré un listener para hacer visible el panel de "Insertar" y si hay
+        algun otro panel en el panelprincipal, que lo limpie y ponga este en su
+        lugar*/
+        ButtonInsert.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                PanelModificar.setVisible(false);
+                PanelInsert.setVisible(true);
+            }
+        });
         
         /*Un boton para abrir el menú de "modificacion de usuario"*/
         JButton ButtonModify = new JButton("Editar Empleado");
@@ -55,6 +68,14 @@ public class Vista extends JFrame{
         ButtonModify.setBackground(Color.DARK_GRAY);
         ButtonModify.setForeground(Color.WHITE);
         ButtonModify.setFocusable(false);
+        /*Tambien le daré un listener exactamente igual al boton  de modificar*/
+        ButtonModify.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                PanelModificar.setVisible(true);
+                PanelInsert.setVisible(false);
+            }
+        });
         
         /*Un boton para abrir el menú de "Eliminar usuario"*/
         JButton ButtonDelete = new JButton("Eliminar Empleado");
@@ -78,7 +99,7 @@ public class Vista extends JFrame{
         PanelMenuPrincipal.add(LabelWelcome);       
         
         /*Añado el panel a la clase peeeero no lo dejo visible, ya que no se va
-        a ver hasta que el usuario ingrese*/
+        a ver hasta que el usuario quiera*/
         add(PanelMenuPrincipal);
         PanelMenuPrincipal.setVisible(false);
         
