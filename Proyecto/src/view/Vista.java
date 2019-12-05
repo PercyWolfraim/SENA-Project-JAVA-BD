@@ -22,6 +22,7 @@ public class Vista extends JFrame{
         setBounds(0,0,800,600);
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);  
+        setResizable(false);
     }
     
     /*creo un metodo en el cual se encuentren todos los elementos que tendrá el 
@@ -33,6 +34,9 @@ public class Vista extends JFrame{
         
         VistaModificar PanelModificar = new VistaModificar();
         add(PanelModificar);
+        
+        VistaEliminar PanelEliminar = new VistaEliminar();
+        add(PanelEliminar);
         /*---------------------------------------------*/
         /*Creo un panel para el menú principal, el cual aun no mostrará*/
         JPanel PanelMenuPrincipal = new JPanel();
@@ -57,6 +61,7 @@ public class Vista extends JFrame{
         ButtonInsert.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
+                PanelEliminar.setVisible(false);
                 PanelModificar.setVisible(false);
                 PanelInsert.setVisible(true);
             }
@@ -72,6 +77,7 @@ public class Vista extends JFrame{
         ButtonModify.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
+                PanelEliminar.setVisible(false);
                 PanelModificar.setVisible(true);
                 PanelInsert.setVisible(false);
             }
@@ -83,6 +89,15 @@ public class Vista extends JFrame{
         ButtonDelete.setBackground(Color.DARK_GRAY);
         ButtonDelete.setForeground(Color.WHITE);
         ButtonDelete.setFocusable(false);
+        ButtonDelete.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PanelEliminar.setVisible(true);
+                PanelModificar.setVisible(false);
+                PanelInsert.setVisible(false);
+            }
+        });
         
         /*Un boton para abrir el menú de "modificacion de usuario"*/
         JButton ButtonSearch = new JButton("Buscar Empleado");
