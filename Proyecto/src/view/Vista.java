@@ -9,8 +9,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /*La clase se extenderá a JFrame, ya que esta sera la ventana que usaremos*/
 public class Vista extends JFrame{
@@ -37,6 +40,9 @@ public class Vista extends JFrame{
         
         VistaEliminar PanelEliminar = new VistaEliminar();
         add(PanelEliminar);
+        
+        VistaConsultar PanelConsultar = new VistaConsultar();
+        add(PanelConsultar);
         /*---------------------------------------------*/
         /*Creo un panel para el menú principal, el cual aun no mostrará*/
         JPanel PanelMenuPrincipal = new JPanel();
@@ -61,6 +67,7 @@ public class Vista extends JFrame{
         ButtonInsert.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
+                PanelConsultar.setVisible(false);
                 PanelEliminar.setVisible(false);
                 PanelModificar.setVisible(false);
                 PanelInsert.setVisible(true);
@@ -77,6 +84,7 @@ public class Vista extends JFrame{
         ButtonModify.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
+                PanelConsultar.setVisible(false);
                 PanelEliminar.setVisible(false);
                 PanelModificar.setVisible(true);
                 PanelInsert.setVisible(false);
@@ -93,6 +101,7 @@ public class Vista extends JFrame{
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                PanelConsultar.setVisible(false);
                 PanelEliminar.setVisible(true);
                 PanelModificar.setVisible(false);
                 PanelInsert.setVisible(false);
@@ -105,6 +114,15 @@ public class Vista extends JFrame{
         ButtonSearch.setBackground(Color.DARK_GRAY);
         ButtonSearch.setForeground(Color.WHITE);
         ButtonSearch.setFocusable(false);
+        ButtonSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                PanelConsultar.setVisible(true);
+                PanelEliminar.setVisible(false);
+                PanelModificar.setVisible(false);
+                PanelInsert.setVisible(false);
+            }
+        });
         
         /*Y añado todo esto al  menú principal*/
         PanelMenuPrincipal.add(ButtonSearch);
@@ -141,11 +159,11 @@ public class Vista extends JFrame{
         /*Ahora voy a añadir los elementos que va a tener el panel*/
         JLabel LabelUserName = new JLabel("Ingrese su nombre");
         LabelUserName.setBounds(370,160,130,30);
-        JTextArea TextUserName = new JTextArea("");
+        JTextField TextUserName = new JTextField("");
         TextUserName.setBounds(510,160,130,30);
         JLabel LabelPass = new JLabel("Ingrese su Contraseña");
         LabelPass.setBounds(370,260,130,30);
-        JTextArea TextPass = new JTextArea("");
+        JPasswordField TextPass = new JPasswordField("");
         TextPass.setBounds(510,260,130,30);
         
         /*Creo los botones de "Ingresar" y "Cancelar"*/
@@ -156,8 +174,13 @@ public class Vista extends JFrame{
         principal*/
         SingIn.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
-                PanelMenuPrincipal.setVisible(true);
-                PanelLogin.setVisible(false);
+                //if (TextUserName.getText().equals("ADSI")&&TextPass.getText().equals("CDMC")){
+                    PanelMenuPrincipal.setVisible(true);
+                    PanelLogin.setVisible(false);
+                //}else{
+                    //JOptionPane.showMessageDialog(rootPane, "Usuario o contraseña incorrecta");
+                //}
+                
             }   
         });
         

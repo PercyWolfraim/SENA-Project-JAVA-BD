@@ -2,12 +2,21 @@
 de sus componentes*/
 package view;
 
+import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import model.empleado.Empleado;
+
+import model.empleado.EmpleadoDao;
 
 public class VistaModificar extends JLabel {
     
@@ -25,6 +34,8 @@ public class VistaModificar extends JLabel {
         
         JButton MButtonSearch = new JButton("Buscar");
         MButtonSearch.setBounds(200,60,100,30);
+        
+        
         
         JLabel MLabelID = new JLabel("Inserte ID del empleado");
         MLabelID.setBounds(30,120,200,30);
@@ -69,7 +80,9 @@ public class VistaModificar extends JLabel {
         PanelModificar.add(MLabelDeduccion);
         PanelModificar.add(MLabelArea);
         
-        JTextArea MTextCodigo = new JTextArea();
+        /*----------------------------------------------*/
+        
+        JTextField MTextCodigo = new JTextField();
         MTextCodigo.setBounds(250,20,200,30);
         
         /*Crearé un separador, ya que el usuario tendrá que buscar primero
@@ -77,32 +90,35 @@ public class VistaModificar extends JLabel {
         JSeparator MSeparator = new JSeparator();
         MSeparator.setBounds(10,100,460,1);
         
-        JTextArea MTextID = new JTextArea();
+        JTextField MTextID = new JTextField();
         MTextID.setBounds(250,120,200,30);
+        MTextID.enable(false);
         
-        JTextArea MTextCedula = new JTextArea();
+        JTextField MTextCedula = new JTextField();
         MTextCedula.setBounds(250,160,200,30);
         
-        JTextArea MTextNombre = new JTextArea();
+        JTextField MTextNombre = new JTextField();
         MTextNombre.setBounds(250,200,200,30);
         
-        JTextArea MTextDepartamento = new JTextArea();
+        JTextField MTextDepartamento = new JTextField();
         MTextDepartamento.setBounds(250,240,200,30);
         
-        JTextArea MTextPuesto = new JTextArea();
+        JTextField MTextPuesto = new JTextField();
         MTextPuesto.setBounds(250,280,200,30);
         
-        JTextArea MTextSalario = new JTextArea();
+        JTextField MTextSalario = new JTextField();
         MTextSalario.setBounds(250,320,200,30);
         MTextSalario.enable(false);
         
-        JTextArea MTextIngreso = new JTextArea();
+        JTextField MTextIngreso = new JTextField();
         MTextIngreso.setBounds(90,360,130,30);
+        MTextIngreso.enable(false);
         
-        JTextArea MTextDeduccion = new JTextArea();
+        JTextField MTextDeduccion = new JTextField();
         MTextDeduccion.setBounds(300,360,130,30);
+        MTextDeduccion.enable(false);
         
-        JTextArea MTextArea = new JTextArea();
+        JTextField MTextArea = new JTextField();
         MTextArea.setBounds(30,430,420,30);
               
         /*Para medir los niveles de riesgo usaré una ComboBox con 4 valores 
@@ -119,6 +135,65 @@ public class VistaModificar extends JLabel {
         /*Por ultimo haré el boton de "Registrar usuario"*/
         JButton MBotonRegistrar = new JButton("Actualizar");
         MBotonRegistrar.setBounds(200,510,100,30);
+        MBotonRegistrar.setEnabled(false);
+        
+        MButtonSearch.addActionListener((ActionEvent) -> {
+            String cod = MTextCodigo.getText();
+            if (!cod.isEmpty()) {
+                try {
+                    List<Empleado> x1 = new EmpleadoDao(cod).consultar();
+                    if (!x1.isEmpty()) {
+                        MTextID.setText(x1.get(0).getId_empleado());
+                        MTextCedula.setText(String.valueOf(x1.get(0).getCedula_empleado()));
+                        MTextNombre.setText(x1.get(0).getNombre_empleado());
+                        MTextDepartamento.setText(String.valueOf(x1.get(0).getId_departamento()));
+                        MTextPuesto.setText(x1.get(0).getId_puesto());
+                        MTextSalario.setText(String.valueOf(x1.get(0).getSalario_mensual_empleado()));
+                        MTextArea.setText(x1.get(0).getResponsable_area());
+                        MBotonRegistrar.setEnabled(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El código ingresado es incorrecto.");
+                    }
+                }catch (HeadlessException e) {
+                    System.out.println("Error en la consulta de datos: \n " + e.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un código!");
+            }
+        });
+        
+        MBotonRegistrar.addActionListener(ActionEvent -> {
+            String sql = "";
+            
+            Empleado emp = new Empleado();
+            
+
+            int cedula = Integer.parseInt(MTextCedula.getText());
+            String nombre = MTextNombre.getText();
+            int departamento = Integer.parseInt(MTextDepartamento.getText());
+            String puesto = MTextPuesto.getText();
+            int salario = Integer.parseInt(MTextSalario.getText());
+            String encargado = MTextArea.getText();
+            
+            emp.setCedula_empleado(cedula);
+            emp.setNombre_empleado(nombre);
+            emp.setId_departamento(departamento);
+            emp.setId_puesto(puesto);
+            emp.setSalario_mensual_empleado(salario);
+            emp.setResponsable_area(encargado);
+            
+            try {
+                EmpleadoDao ED = new EmpleadoDao("");
+                boolean confirmation = ED.modificar(emp);
+                if (confirmation) {
+                    JOptionPane.showMessageDialog(null, "Actualización completada");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Hubo un error en la actualización");
+                }
+            } catch (HeadlessException e) {
+                System.out.println("Error en la actualización de datos de datos: \n " + e.getMessage());
+            }
+        });
         
         PanelModificar.add(MSeparator);
         PanelModificar.add(MBotonRegistrar);
