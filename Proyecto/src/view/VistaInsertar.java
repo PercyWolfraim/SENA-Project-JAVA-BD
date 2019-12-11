@@ -1,14 +1,16 @@
 /*Aquí emperazré a crear la vista para registrar a un usuario, para luego 
-insertarla a la clase lista*/
+ insertarla a la clase lista*/
 package view;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import model.empleado.Empleado;
+import model.empleado.EmpleadoDao;
 
 public class VistaInsertar extends JPanel {
 
@@ -19,11 +21,11 @@ public class VistaInsertar extends JPanel {
         setBounds(300, 0, 500, 600);
         setVisible(false);
         /*Ahora crearé la vistas "Insertar" que tendrá el panel secudario, el cual aun no
-        se mostrará*/
+         se mostrará*/
 
- /*Empèzaré por el panel de "Insertar
-        pondré primero los label de cada campo
-        de la BD*/
+        /*Empèzaré por el panel de "Insertar
+         pondré primero los label de cada campo
+         de la BD*/
         JPanel PanelInsertar = new JPanel();
         PanelInsertar.setLayout(null);
         PanelInsertar.setBounds(0, 0, 500, 600);
@@ -50,9 +52,9 @@ public class VistaInsertar extends JPanel {
         ILabelSalario.setBounds(30, 270, 210, 30);
 
         /*Voy a añadir en el menú de insertar la opcion de  ingresar tanto el
-        ingreso que obtiene el usuario como la deduccion que resive, porque a mi
-        parecer, es la forma mas correcta para hacerlo (y en realidad la unica
-        porque no se me ocurre nada mas)*/
+         ingreso que obtiene el usuario como la deduccion que resive, porque a mi
+         parecer, es la forma mas correcta para hacerlo (y en realidad la unica
+         porque no se me ocurre nada mas)*/
         JLabel ILabelIngreso = new JLabel("Ingresos");
         ILabelIngreso.setBounds(30, 310, 150, 30);
 
@@ -63,10 +65,10 @@ public class VistaInsertar extends JPanel {
         ILabelArea.setBounds(30, 350, 250, 30);
 
         /*Tambien añadiré un combo box que contenga el nivel al que el usuario 
-        se expone
-        IMPORTANTE: Segun la GTC 45, un empleado que se exponga a un nivel de 
-        riesgo IV (4) no puede emplear su labor hasta que el riesgo halla sido
-        controlado o que hasta que el nivel de riesgo haya bajado.*/
+         se expone
+         IMPORTANTE: Segun la GTC 45, un empleado que se exponga a un nivel de 
+         riesgo IV (4) no puede emplear su labor hasta que el riesgo halla sido
+         controlado o que hasta que el nivel de riesgo haya bajado.*/
         JLabel ILabelRiesgo = new JLabel("Nivel de riesgo al que el usuario se expone");
         ILabelRiesgo.setBounds(30, 420, 250, 30);
 
@@ -117,7 +119,7 @@ public class VistaInsertar extends JPanel {
         ITextArea.setBounds(30, 390, 420, 30);
 
         /*Para medir los niveles de riesgo usaré una ComboBox con 4 valores 
-        (1...4)*/
+         (1...4)*/
         JComboBox IComboRiesgo = new JComboBox();
         IComboRiesgo.addItem(1);
         IComboRiesgo.addItem(2);
@@ -129,25 +131,35 @@ public class VistaInsertar extends JPanel {
         JButton IBotonRegistrar = new JButton("Registrar");
         IBotonRegistrar.setBounds(200, 470, 100, 30);
         IBotonRegistrar.addActionListener((ae) -> {
+
+            Empleado emp = new Empleado();
+
+            int codigo = Integer.parseInt(ITextCodigo.getText());
+            String ID = ITextID.getText();
+            int cedula = Integer.parseInt(ITextCedula.getText());
+            String nombre = ITextNombre.getText();
+            int departamento = Integer.parseInt(ITextDepartamento.getText());
+            String puesto = ITextPuesto.getText();
+            int salario = Integer.parseInt(ITextSalario.getText());
+            String encargado = ITextArea.getText();
+
+            emp.setCod_empleado(codigo);
+            emp.setId_empleado(ID);
+            emp.setCedula_empleado(cedula);
+            emp.setNombre_empleado(nombre);
+            emp.setId_departamento(departamento);
+            emp.setId_puesto(puesto);
+            emp.setSalario_mensual_empleado(salario);
+            emp.setResponsable_area(encargado);
+
             try {
-                Empleado emp = new Empleado();
-
-                int codigo = Integer.parseInt(ITextCodigo.getText());
-                String ID = ITextID.getText();
-                int cedula = Integer.parseInt(ITextCedula.getText());
-                String nombre = ITextNombre.getText();
-                int departamento = Integer.parseInt(ITextDepartamento.getText());
-                String puesto = ITextPuesto.getText();
-                int salario = Integer.parseInt(ITextSalario.getText());
-                String encargado = ITextArea.getText();
-
-                emp.setCod_empleado(codigo);
-                emp.setCedula_empleado(cedula);
-                emp.setNombre_empleado(nombre);
-                emp.setId_departamento(departamento);
-                emp.setId_puesto(puesto);
-                emp.setSalario_mensual_empleado(salario);
-                emp.setResponsable_area(encargado);
+                EmpleadoDao ED = new EmpleadoDao("");
+                boolean confirmation = ED.insertar(emp);
+                if (confirmation) {
+                    JOptionPane.showMessageDialog(null, "registro completada");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Hubo un error en el registro");
+                }
             } catch (Exception e) {
                 System.out.println("Error en la insercion de datos: \n " + e.getMessage());
             }

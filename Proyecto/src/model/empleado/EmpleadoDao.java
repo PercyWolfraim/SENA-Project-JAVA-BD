@@ -47,14 +47,13 @@ public class EmpleadoDao implements IEmpleado {
     @Override
     public boolean modificar(Empleado objEmpleado) {
         String sql = " UPDATE EMPLEADO SET "
-
                 + "CEDULA_EMPLEADO = ?,"
                 + "NOMBRE_EMPLEADO = ?,"
                 + "ID_DEPARTAMENTO = ?,"
                 + "ID_PUESTO = ?,"
                 + "SALARIO_MENSUAL_EMPLEADO = ?,"
                 + "RESPONSABLE_AREA = ?"
-                + "WHERE COD_EMPLEADO = ?";
+                + "WHERE ID_EMPLEADO = ?";
 
         try {
             cn = Conexion.conectar();
@@ -82,12 +81,12 @@ public class EmpleadoDao implements IEmpleado {
     @Override
     public boolean eliminar(Empleado objEmpleado) {
 
-        String sql = "DELETE FROM EMPLEADO WHERE ID_EMPLEADO = ?";
+        String sql = "DELETE FROM EMPLEADO WHERE COD_EMPLEADO = ?";
 
         try {
             cn = Conexion.conectar();
             stm = cn.prepareStatement(sql);
-            stm.setString(1, objEmpleado.getId_empleado());
+            stm.setInt(1, objEmpleado.getCod_empleado());
             stm.executeUpdate();
 
             System.out.println("Se ha eliminado el usuario exitosamente");

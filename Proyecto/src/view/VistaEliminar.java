@@ -1,11 +1,15 @@
 package view;
 
+import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import model.empleado.Empleado;
+import model.empleado.EmpleadoDao;
 
 public class VistaEliminar extends JPanel{
     
@@ -26,6 +30,31 @@ public class VistaEliminar extends JPanel{
         
         JButton EBotonBuscar = new JButton("Eliminar");
         EBotonBuscar.setBounds(200,80,100,30);
+        EBotonBuscar.addActionListener(ActionEvent -> {
+            String cod = ETextCodigo.getText();
+            if(!cod.isEmpty()){
+                Empleado emp = new Empleado();
+            
+                int codigo = Integer.parseInt(ETextCodigo.getText());
+                
+                emp.setCod_empleado(codigo);
+                
+                try {
+                    EmpleadoDao ED = new EmpleadoDao("");
+                    boolean confirmation = ED.eliminar(emp);
+                    if(confirmation){
+                        JOptionPane.showMessageDialog(null, "Eliminacion completada");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Ha ocurrido un error un error");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error en la elimincacion de los datos de datos: \n " + e.getMessage());
+                }
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "Por Favor Inserte el ID del empleado");
+            }
+        });
         
         
         

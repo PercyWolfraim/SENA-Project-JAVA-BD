@@ -167,7 +167,7 @@ public class VistaModificar extends JLabel {
             
             Empleado emp = new Empleado();
             
-
+            String ID = MTextID.getText();
             int cedula = Integer.parseInt(MTextCedula.getText());
             String nombre = MTextNombre.getText();
             int departamento = Integer.parseInt(MTextDepartamento.getText());
@@ -175,6 +175,7 @@ public class VistaModificar extends JLabel {
             int salario = Integer.parseInt(MTextSalario.getText());
             String encargado = MTextArea.getText();
             
+            emp.setId_empleado(ID);
             emp.setCedula_empleado(cedula);
             emp.setNombre_empleado(nombre);
             emp.setId_departamento(departamento);
